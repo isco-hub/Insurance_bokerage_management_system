@@ -1,0 +1,157 @@
+name: ibms
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ibms}
+      POSTGRES_USER: ${POSTGRES_USER:-ibms}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ibms}
+    ports:
+      - "${POSTGRES_PORT:-5434}:5432"
+    volumes:
+      - ibms_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ibms} -d ${POSTGRES_DB:-ibms}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  cache:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./backend
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-insecure-development-key-change-me}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-false}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1,api}
+      TIME_ZONE: ${TIME_ZONE:-Africa/Kampala}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DATABASE_URL: postgres://${POSTGRES_USER:-ibms}:${POSTGRES_PASSWORD:-ibms}@db:5432/${POSTGRES_DB:-ibms}
+      CACHE_URL: ${CACHE_URL:-redis://cache:6379/1}
+      JWT_ACCESS_HOURS: ${JWT_ACCESS_HOURS:-12}
+      JWT_REFRESH_DAYS: ${JWT_REFRESH_DAYS:-7}
+      MAX_LOGIN_ATTEMPTS: ${MAX_LOGIN_ATTEMPTS:-5}
+      LOCK_MINUTES: ${LOCK_MINUTES:-15}
+      THROTTLE_ANON: ${THROTTLE_ANON:-120/min}
+      THROTTLE_USER: ${THROTTLE_USER:-5000/hour}
+      THROTTLE_LOGIN: ${THROTTLE_LOGIN:-20/min}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:5173}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-http://localhost:8080,http://localhost:5173}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      CSRF_COOKIE_SECURE: ${CSRF_COOKIE_SECURE:-false}
+      SESSION_COOKIE_SAMESITE: ${SESSION_COOKIE_SAMESITE:-Lax}
+      CSRF_COOKIE_SAMESITE: ${CSRF_COOKIE_SAMESITE:-Lax}
+      SECURE_SSL_REDIRECT: ${SECURE_SSL_REDIRECT:-false}
+      SECURE_HSTS_SECONDS: ${SECURE_HSTS_SECONDS:-0}
+      SECURE_HSTS_INCLUDE_SUBDOMAINS: ${SECURE_HSTS_INCLUDE_SUBDOMAINS:-false}
+      SECURE_HSTS_PRELOAD: ${SECURE_HSTS_PRELOAD:-false}
+      SECURE_REFERRER_POLICY: ${SECURE_REFERRER_POLICY:-same-origin}
+      HIGH_VALUE_QUOTE_THRESHOLD: ${HIGH_VALUE_QUOTE_THRESHOLD:-50000}
+      COMMISSION_PAYABLE_DAYS: ${COMMISSION_PAYABLE_DAYS:-30}
+      AUTOMATION_RENEWAL_DAYS: ${AUTOMATION_RENEWAL_DAYS:-90}
+      AUTOMATION_RENEWAL_QUOTE_DAYS: ${AUTOMATION_RENEWAL_QUOTE_DAYS:-60}
+      AUTOMATION_COLLECTION_INTERVAL_DAYS: ${AUTOMATION_COLLECTION_INTERVAL_DAYS:-7}
+      DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-no-reply@ibms.local}
+      EMAIL_BACKEND: ${EMAIL_BACKEND:-django.core.mail.backends.console.EmailBackend}
+      EMAIL_HOST: ${EMAIL_HOST:-}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER:-}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD:-}
+      EMAIL_USE_TLS: ${EMAIL_USE_TLS:-true}
+      EMAIL_USE_SSL: ${EMAIL_USE_SSL:-false}
+      SMS_GATEWAY_URL: ${SMS_GATEWAY_URL:-}
+      SMS_GATEWAY_TOKEN: ${SMS_GATEWAY_TOKEN:-}
+      SMS_SENDER_ID: ${SMS_SENDER_ID:-IBMS}
+      WAIT_FOR_DB: "1"
+      SEED_ON_START: ${SEED_ON_START:-1}
+      COLLECT_STATIC: "1"
+    ports:
+      - "${API_PORT:-4000}:8000"
+    volumes:
+      - ./backend:/app
+      - ibms_media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/api/health/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  scheduler:
+    build:
+      context: ./backend
+    command:
+      - sh
+      - -c
+      - >
+        while true; do
+          python manage.py run_automation || echo 'Automation run failed';
+          sleep "$${AUTOMATION_INTERVAL_SECONDS:-3600}";
+        done
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-insecure-development-key-change-me}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-false}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1,api}
+      TIME_ZONE: ${TIME_ZONE:-Africa/Kampala}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DATABASE_URL: postgres://${POSTGRES_USER:-ibms}:${POSTGRES_PASSWORD:-ibms}@db:5432/${POSTGRES_DB:-ibms}
+      CACHE_URL: ${CACHE_URL:-redis://cache:6379/1}
+      HIGH_VALUE_QUOTE_THRESHOLD: ${HIGH_VALUE_QUOTE_THRESHOLD:-50000}
+      COMMISSION_PAYABLE_DAYS: ${COMMISSION_PAYABLE_DAYS:-30}
+      AUTOMATION_RENEWAL_DAYS: ${AUTOMATION_RENEWAL_DAYS:-90}
+      AUTOMATION_RENEWAL_QUOTE_DAYS: ${AUTOMATION_RENEWAL_QUOTE_DAYS:-60}
+      AUTOMATION_COLLECTION_INTERVAL_DAYS: ${AUTOMATION_COLLECTION_INTERVAL_DAYS:-7}
+      AUTOMATION_INTERVAL_SECONDS: ${AUTOMATION_INTERVAL_SECONDS:-3600}
+      DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-no-reply@ibms.local}
+      EMAIL_BACKEND: ${EMAIL_BACKEND:-django.core.mail.backends.console.EmailBackend}
+      EMAIL_HOST: ${EMAIL_HOST:-}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER:-}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD:-}
+      EMAIL_USE_TLS: ${EMAIL_USE_TLS:-true}
+      EMAIL_USE_SSL: ${EMAIL_USE_SSL:-false}
+      SMS_GATEWAY_URL: ${SMS_GATEWAY_URL:-}
+      SMS_GATEWAY_TOKEN: ${SMS_GATEWAY_TOKEN:-}
+      SMS_SENDER_ID: ${SMS_SENDER_ID:-IBMS}
+      WAIT_FOR_DB: "1"
+      SEED_ON_START: "0"
+      COLLECT_STATIC: "0"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-/api}
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  ibms_pgdata:
+  ibms_media:
