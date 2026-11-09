@@ -58,6 +58,11 @@ class ClaimViewSet(BaseModelViewSet):
                     {'statusCode': 400, 'message': 'Paid amount cannot be negative'},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+            if claim.reserve_amount and paid > claim.reserve_amount:
+                return Response(
+                    {'statusCode': 400, 'message': f'Paid amount ({paid}) exceeds the reserve amount ({claim.reserve_amount}). Increase the reserve first.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             claim.paid_amount = paid
         if recovered is not None:
             claim.recovered_amount = recovered

@@ -56,6 +56,13 @@ class PremiumSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Amount due must be greater than zero.')
         return value
 
+    def validate_status(self, value):
+        if self.instance and self.instance.status in ('PAID', 'WAIVED') and value not in ('PAID', 'WAIVED'):
+            raise serializers.ValidationError(
+                f'Cannot change status of a {self.instance.status.lower()} premium instalment.'
+            )
+        return value
+
 
 class InvoiceSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(source='client.name', read_only=True)
@@ -180,6 +187,11 @@ class PaymentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Payment amount must be greater than zero.')
         return value
 
+    def validate_invoice(self, invoice):
+        if invoice and invoice.status == 'CANCELLED':
+            raise serializers.ValidationError('Cannot apply a payment to a cancelled invoice.')
+        return invoice
+
     def validate(self, attrs):
         client = attrs.get('client') or (self.instance.client if self.instance else None)
         invoice = attrs.get('invoice') or (self.instance.invoice if self.instance else None)
@@ -232,6 +244,11 @@ class CreditDebitNoteSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
         read_only_fields = ['note_number', 'created_by']
+
+    def validate_amount(self, value):
+        if value is not None and value <= 0:
+            raise serializers.ValidationError('Amount must be greater than zero.')
+        return value
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -358,9 +375,7 @@ class RemittanceSerializer(serializers.ModelSerializer):
             if not validated_data.get('branch') and user.branch_id:
                 validated_data['branch_id'] = user.branch_id
         gross = Decimal(str(validated_data.get('gross_premium') or 0))
-        commission = Decimal(
-            str(validated_data.get('commission_retained') or 0)
-        )
+        commission = Decimal(str(validated_data.get('commission_retained') or 0))
         taxes = Decimal(str(validated_data.get('taxes') or 0))
         if validated_data.get('net_amount') in (None, ''):
             validated_data['net_amount'] = gross - commission - taxes

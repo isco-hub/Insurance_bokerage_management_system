@@ -18,6 +18,14 @@ class BranchSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
 
+    def validate_code(self, value):
+        qs = Branch.objects.filter(code__iexact=value)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError('A branch with this code already exists.')
+        return value.upper()
+
 
 class PermissionSerializer(serializers.ModelSerializer):
     code = serializers.CharField(read_only=True)
@@ -101,6 +109,15 @@ class UserSerializer(serializers.ModelSerializer):
         from django.utils import timezone
 
         return bool(obj.locked_until and obj.locked_until > timezone.now())
+
+    def validate_email(self, value):
+        if value:
+            qs = User.objects.filter(email=value.lower())
+            if self.instance:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise serializers.ValidationError('A user with this email already exists.')
+        return value.lower() if value else value
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)

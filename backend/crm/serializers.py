@@ -233,6 +233,14 @@ class InsurerSerializer(serializers.ModelSerializer):
     )
     policy_count = serializers.IntegerField(source='policies.count', read_only=True)
 
+    def validate_code(self, value):
+        qs = Insurer.objects.filter(code__iexact=value)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError('An insurer with this code already exists.')
+        return value.upper()
+
     class Meta:
         model = Insurer
         fields = [

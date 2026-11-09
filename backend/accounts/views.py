@@ -224,6 +224,12 @@ class RoleViewSet(BaseModelViewSet):
     ordering_fields = ['name', 'created_at']
     ordering = ['name']
 
+    def perform_destroy(self, instance):
+        if instance.is_system:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError('System roles cannot be deleted.')
+        super().perform_destroy(instance)
+
 
 class PermissionViewSet(BaseReadOnlyViewSet):
     module = 'roles'
@@ -286,6 +292,12 @@ class UserViewSet(SoftDeleteMixin, BaseModelViewSet):
             user.id,
             'Updated user',
         )
+
+    def perform_destroy(self, instance):
+        if instance == self.request.user:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError('You cannot deactivate your own account.')
+        super().perform_destroy(instance)
 
     def get_queryset(self):
         qs = super().get_queryset()

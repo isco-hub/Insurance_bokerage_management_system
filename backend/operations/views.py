@@ -333,9 +333,9 @@ class PolicyViewSet(BaseModelViewSet):
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
         policy = self.get_object()
-        if policy.status == PolicyStatus.CANCELLED:
+        if policy.status in (PolicyStatus.CANCELLED, PolicyStatus.EXPIRED, PolicyStatus.LAPSED):
             return Response(
-                {'statusCode': 400, 'message': 'Policy is already cancelled'},
+                {'statusCode': 400, 'message': f'Policy is already {policy.status.lower()}'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         effective = request.data.get('effective_date') or timezone.localdate()
@@ -503,6 +503,11 @@ class RenewalViewSet(BaseModelViewSet):
     @action(detail=True, methods=['post'])
     def outcome(self, request, pk=None):
         renewal = self.get_object()
+        if renewal.status in (RenewalStatus.WON, RenewalStatus.LOST, RenewalStatus.LAPSED):
+            return Response(
+                {'statusCode': 400, 'message': f'Renewal is already {renewal.status.lower()}'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         outcome = (request.data.get('status') or '').upper()
         if outcome not in (
             RenewalStatus.WON,

@@ -104,8 +104,6 @@ class RiskSerializer(serializers.ModelSerializer):
         if client and (not client.is_active or client.deleted_at is not None):
             raise serializers.ValidationError('Cannot create a risk for an inactive or deleted client.')
         return client
-
-    def create(self, validated_data):
         request = self.context.get('request')
         user = getattr(request, 'user', None)
         validated_data['risk_number'] = next_number(Risk, 'risk_number', 'RSK')
@@ -139,6 +137,11 @@ class InsurerQuoteSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['received_at']
 
+    def validate_premium(self, value):
+        if value is not None and value < 0:
+            raise serializers.ValidationError('Premium cannot be negative.')
+        return value
+
     def validate(self, attrs):
         quotation = attrs.get('quotation') or (self.instance.quotation if self.instance else None)
         insurer = attrs.get('insurer') or (self.instance.insurer if self.instance else None)
@@ -150,6 +153,11 @@ class InsurerQuoteSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {'insurer': 'A quote from this insurer already exists for this quotation.'}
                 )
+        premium = attrs.get('premium')
+        if premium is not None and premium <= 0:
+            raise serializers.ValidationError(
+                {'premium': 'Premium must be greater than zero.'}
+            )
         return attrs
 
     def _sync(self, instance):
@@ -254,6 +262,10 @@ class QuotationSerializer(serializers.ModelSerializer):
                 {'valid_to': 'Valid to date must be after valid from date.'}
             )
         client = attrs.get('client') or (self.instance.client if self.instance else None)
+        if client and (not client.is_active or client.deleted_at is not None):
+            raise serializers.ValidationError(
+                {'client': 'Cannot create a quotation for an inactive or deleted client.'}
+            )
         risk = attrs.get('risk') or (self.instance.risk if self.instance else None)
         if risk and client and risk.client_id != client.pk:
             raise serializers.ValidationError(

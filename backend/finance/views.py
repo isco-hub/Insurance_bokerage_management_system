@@ -207,6 +207,11 @@ class CommissionViewSet(BaseModelViewSet):
                 {'statusCode': 400, 'message': 'Commission is already reconciled'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        if commission.status == CommissionStatus.PENDING:
+            return Response(
+                {'statusCode': 400, 'message': 'Commission must be marked as earned or paid before reconciliation'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         commission.status = CommissionStatus.RECONCILED
         if not commission.paid_at:
             commission.paid_at = timezone.now()
