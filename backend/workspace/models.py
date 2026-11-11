@@ -183,3 +183,4 @@ class Approval(models.Model):
 
     def __str__(self):
         return f'{self.type} — {self.status}'
+# 2026-11-11T15:06:09Z document model
