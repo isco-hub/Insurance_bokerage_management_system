@@ -319,3 +319,4 @@ class Remittance(models.Model):
     def __str__(self):
         return self.remittance_number
 # 2026-11-11T15:06:08Z invoice model
+# 2026-11-11T15:06:08Z remittance model
