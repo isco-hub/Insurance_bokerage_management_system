@@ -23,3 +23,4 @@ def next_number(model, field, prefix, year=None):
         except (TypeError, ValueError):
             seq = 1
     return f'{base}{seq:04d}'
+# 2026-11-11T15:06:08Z invoice numbering
