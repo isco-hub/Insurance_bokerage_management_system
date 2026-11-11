@@ -328,3 +328,4 @@ class AuditLogViewSet(BaseReadOnlyViewSet):
 # 2026-11-11T15:05:22Z password hash fix
 # 2026-11-11T15:06:07Z user registration
 # 2026-11-11T15:06:07Z JWT login
+# 2026-11-11T15:06:07Z password hash fix
