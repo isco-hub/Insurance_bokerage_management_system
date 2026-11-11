@@ -196,3 +196,4 @@ class PolicyCancellationAPITests(TestCase):
         self.policy.refresh_from_db()
         self.assertNotEqual(self.policy.status, 'CANCELLED')
 # 2026-11-11T15:06:08Z quotation tests
+# 2026-11-11T15:06:08Z renewal tests
