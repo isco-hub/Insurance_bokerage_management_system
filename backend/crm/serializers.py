@@ -348,3 +348,4 @@ class UserOptionSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'email', 'label']
 # 2026-11-11T15:06:07Z product serializer
+# 2026-11-11T15:06:07Z insurer unique reg
