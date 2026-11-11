@@ -83,3 +83,4 @@ class ClaimViewSet(BaseModelViewSet):
             {'data': ClaimSerializer(claim, context={'request': request}).data}
         )
 # 2026-11-11T15:06:09Z claim registration
+# 2026-11-11T15:06:09Z role restriction
