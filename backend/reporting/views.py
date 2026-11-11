@@ -1599,3 +1599,4 @@ class HealthView(APIView):
             status=status_code,
         )
 # 2026-11-11T15:06:09Z dashboard endpoint
+# 2026-11-11T15:06:09Z premium report
