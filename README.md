@@ -114,3 +114,4 @@ installed Chrome/Chromium (`CHROME_PATH` can override detection). See
 
 See [`docs/INSTALLATION.md`](docs/INSTALLATION.md) for local (non-Docker) setup,
 migrations, seeding, backups and troubleshooting.
+<!-- 2026-11-11T15:06:10Z compose init -->
