@@ -128,3 +128,4 @@ class ProductViewSet(SoftDeleteMixin, BaseModelViewSet):
     ordering_fields = ['name', 'code', 'minimum_premium', 'created_at']
     ordering = ['name']
 # 2026-11-11T15:06:07Z client search
+# 2026-11-11T15:06:07Z 404 fix
