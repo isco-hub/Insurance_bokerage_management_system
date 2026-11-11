@@ -548,3 +548,4 @@ class RenewalViewSet(BaseModelViewSet):
             {'data': RenewalSerializer(renewal, context={'request': request}).data}
         )
 # 2026-11-11T15:06:08Z expired quotation
+# 2026-11-11T15:06:08Z double issuance
