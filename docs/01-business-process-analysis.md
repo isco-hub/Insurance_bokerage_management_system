@@ -311,3 +311,4 @@ R = responsible, A = accountable/approver, C = consulted, I = informed.
   documented API, consistent error envelope.
 - **Compliance**: retention of financial and audit records, data-protection-aligned
   access control, exportable audit reports.
+<!-- 2026-11-11T15:06:09Z claims workflow -->
