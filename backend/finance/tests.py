@@ -123,3 +123,4 @@ class PaymentAllocationAPITests(TestCase):
         self.invoice.refresh_from_db()
         self.assertEqual(self.invoice.amount_paid, Decimal('0.00'))
 # 2026-11-11T15:06:09Z premium tests
+# 2026-11-11T15:06:09Z commission edge cases
