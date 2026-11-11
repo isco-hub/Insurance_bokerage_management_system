@@ -242,3 +242,4 @@ smoke test.
 | API returns 429 | A throttle limit was reached; wait for the window or adjust `THROTTLE_*` |
 | 502 from web | Wait for API health, then `docker compose logs api` |
 | `makemigrations --check` fails | Run `makemigrations`, review and commit the migration |
+<!-- 2026-11-11T15:06:11Z testing guide -->
