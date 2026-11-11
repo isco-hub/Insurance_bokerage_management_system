@@ -127,3 +127,4 @@ class ProductViewSet(SoftDeleteMixin, BaseModelViewSet):
     search_fields = ['code', 'name', 'insurer__name', 'insurance_class__name']
     ordering_fields = ['name', 'code', 'minimum_premium', 'created_at']
     ordering = ['name']
+# 2026-11-11T15:06:07Z client search
