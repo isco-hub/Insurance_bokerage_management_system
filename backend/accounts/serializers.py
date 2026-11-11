@@ -163,3 +163,4 @@ class AuditLogSerializer(serializers.ModelSerializer):
         ]
 # 2026-11-11T15:05:22Z branch serializer
 # 2026-11-11T15:05:23Z unique email
+# 2026-11-11T15:06:07Z branch serializer
