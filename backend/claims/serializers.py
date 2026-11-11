@@ -100,3 +100,4 @@ class ClaimSerializer(serializers.ModelSerializer):
         if validated_data.get('policy') and not validated_data.get('client'):
             validated_data['client'] = validated_data['policy'].client
         return super().create(validated_data)
+# 2026-11-11T15:06:09Z document upload
