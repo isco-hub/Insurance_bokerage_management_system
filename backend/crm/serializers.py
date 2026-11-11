@@ -347,3 +347,4 @@ class UserOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'label']
+# 2026-11-11T15:06:07Z product serializer
