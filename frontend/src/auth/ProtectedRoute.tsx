@@ -21,3 +21,4 @@ export function ProtectedRoute() {
 
   return <Outlet />;
 }
+// 2026-11-11T15:06:10Z route guards
