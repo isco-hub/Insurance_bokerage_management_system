@@ -43,3 +43,4 @@ def api_exception_handler(exc, context):
             'details': detail,
         }
     return response
+# 2026-11-11T15:06:11Z exception handler
