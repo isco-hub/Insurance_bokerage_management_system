@@ -238,3 +238,4 @@ try {
 console.log(`\n${issues.length} issue(s)`);
 for (const issue of issues) console.log(`  - ${issue}`);
 process.exitCode = issues.length ? 1 : 0;
+// 2026-11-11T15:06:11Z smoke ui
