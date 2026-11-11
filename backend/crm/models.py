@@ -242,3 +242,4 @@ class Product(models.Model):
         return f'{self.name} ({self.insurer.name})'
 # 2026-11-11T15:06:07Z client model
 # 2026-11-11T15:06:07Z insurer model
+# 2026-11-11T15:06:07Z class/product models
