@@ -404,3 +404,4 @@ A new upload for the same entity and document name becomes the current version. 
   `5000/hour`, and sign-in attempts `20/min` per client IP. Health checks are exempt.
   Override them with `THROTTLE_ANON`, `THROTTLE_USER` and `THROTTLE_LOGIN`. Exceeding a
   limit returns `429`.
+<!-- 2026-11-11T15:06:09Z payment API -->
