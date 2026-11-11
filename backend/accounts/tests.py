@@ -121,3 +121,4 @@ class PermissionAndScopeAPITests(TestCase):
         self.assertIsNotNone(client.deleted_at)
         self.assertEqual(self.client.get('/api/clients/').json()['data'], [])
 # 2026-11-11T15:05:23Z JWT refresh tests
+# 2026-11-11T15:06:07Z JWT refresh tests
