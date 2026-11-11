@@ -406,3 +406,4 @@ A new upload for the same entity and document name becomes the current version. 
   limit returns `429`.
 <!-- 2026-11-11T15:06:09Z payment API -->
 <!-- 2026-11-11T15:06:10Z reporting API -->
+<!-- 2026-11-11T15:06:11Z policy endpoints -->
