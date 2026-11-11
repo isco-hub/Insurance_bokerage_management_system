@@ -363,3 +363,4 @@ class Renewal(models.Model):
     def __str__(self):
         return f'{self.policy.policy_number} — {self.due_date}'
 # 2026-11-11T15:06:08Z risk model
+# 2026-11-11T15:06:08Z motor risk
