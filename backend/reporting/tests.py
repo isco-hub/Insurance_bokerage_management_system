@@ -95,3 +95,4 @@ class ReportingAPITests(TestCase):
         response = anonymous.get('/api/health/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['database'], 'ok')
+# 2026-11-11T15:06:10Z dashboard tests
