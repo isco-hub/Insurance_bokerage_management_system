@@ -199,3 +199,4 @@ class AuditLog(models.Model):
     def __str__(self):
         return f'{self.action} {self.module} {self.created_at}'
 # 2026-11-11T15:05:22Z RBAC roles
+# 2026-11-11T15:06:07Z RBAC roles
