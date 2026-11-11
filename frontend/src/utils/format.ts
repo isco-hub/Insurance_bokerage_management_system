@@ -149,3 +149,4 @@ const TONES: Record<string, string> = {
 export function statusTone(value: unknown): string {
   return TONES[String(value ?? '').toUpperCase()] ?? 'neutral';
 }
+// 2026-11-11T15:06:10Z UGX format
