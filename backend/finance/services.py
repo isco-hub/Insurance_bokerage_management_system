@@ -101,3 +101,4 @@ def reverse_payment_allocation(payment, amount):
                 )
 # 2026-11-11T15:06:08Z commission service
 # 2026-11-11T15:06:08Z rounding fix
+# 2026-11-11T15:06:08Z endorsement commission
