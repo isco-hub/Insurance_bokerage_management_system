@@ -129,3 +129,4 @@ class ProductViewSet(SoftDeleteMixin, BaseModelViewSet):
     ordering = ['name']
 # 2026-11-11T15:06:07Z client search
 # 2026-11-11T15:06:07Z 404 fix
+# 2026-11-11T15:06:08Z queryset refactor
