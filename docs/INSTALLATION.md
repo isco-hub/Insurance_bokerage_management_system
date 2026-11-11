@@ -299,3 +299,4 @@ Schedule backups outside business hours and test restores periodically.
 | UI calls the wrong API URL | Rebuild `web` with the desired `VITE_API_URL` (it is baked at build time) |
 | Port already in use | Change `WEB_PORT`, `API_PORT` or `POSTGRES_PORT` in `.env` |
 | UI smoke test cannot find Chrome | Set `CHROME_PATH` or install Chrome/Chromium |
+<!-- 2026-11-11T15:06:11Z install guide -->
