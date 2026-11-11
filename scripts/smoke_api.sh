@@ -80,3 +80,4 @@ pass "invalid login rejected"
 
 echo
 printf 'All API smoke checks passed.\n'
+# 2026-11-11T15:06:11Z smoke api
