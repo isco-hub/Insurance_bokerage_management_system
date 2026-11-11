@@ -149,3 +149,4 @@ class SoftDeleteMixin:
             getattr(instance, 'pk', ''),
             'Deactivated/deleted record',
         )
+# 2026-11-11T15:06:11Z base viewset
