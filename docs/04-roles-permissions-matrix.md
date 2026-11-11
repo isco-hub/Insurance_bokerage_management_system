@@ -189,3 +189,4 @@ reports:view
    records with financial history and are restricted to administrators.
 6. **Session controls.** Accounts lock after five consecutive failed logins for 15
    minutes (configurable); all sessions expire with the JWT.
+<!-- 2026-11-11T15:06:07Z RBAC update -->
