@@ -53,3 +53,4 @@ class ClaimSettlementAPITests(TestCase):
         self.assertEqual(self.claim.status, 'SETTLED')
         self.assertEqual(self.claim.paid_amount, Decimal('500.00'))
         self.assertIsNotNone(self.claim.settled_at)
+# 2026-11-11T15:06:09Z status transition tests
