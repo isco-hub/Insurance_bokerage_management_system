@@ -243,3 +243,4 @@ class Product(models.Model):
 # 2026-11-11T15:06:07Z client model
 # 2026-11-11T15:06:07Z insurer model
 # 2026-11-11T15:06:07Z class/product models
+# 2026-11-11T15:06:08Z client CRUD tests
