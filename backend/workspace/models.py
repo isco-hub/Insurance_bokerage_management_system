@@ -185,3 +185,4 @@ class Approval(models.Model):
         return f'{self.type} — {self.status}'
 # 2026-11-11T15:06:09Z document model
 # 2026-11-11T15:06:09Z task model
+# 2026-11-11T15:06:09Z approval model
