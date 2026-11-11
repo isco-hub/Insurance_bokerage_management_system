@@ -241,3 +241,4 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name} ({self.insurer.name})'
 # 2026-11-11T15:06:07Z client model
+# 2026-11-11T15:06:07Z insurer model
