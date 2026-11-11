@@ -82,3 +82,4 @@ class ClaimViewSet(BaseModelViewSet):
         return Response(
             {'data': ClaimSerializer(claim, context={'request': request}).data}
         )
+# 2026-11-11T15:06:09Z claim registration
