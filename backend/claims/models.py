@@ -55,3 +55,4 @@ class Claim(models.Model):
     def __str__(self):
         return self.claim_number
 # 2026-11-11T15:06:09Z claim model
+# 2026-11-11T15:06:09Z assessment fields
