@@ -116,3 +116,4 @@ See [`docs/INSTALLATION.md`](docs/INSTALLATION.md) for local (non-Docker) setup,
 migrations, seeding, backups and troubleshooting.
 <!-- 2026-11-11T15:06:10Z compose init -->
 <!-- 2026-11-11T15:06:10Z pin versions -->
+<!-- 2026-11-11T15:06:11Z gitignore -->
