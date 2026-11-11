@@ -626,3 +626,4 @@ Index `(entity_type, entity_id)`.
 
 Sequences are generated transactionally from the maximum existing value per year to
 avoid duplicates under concurrent use.
+<!-- 2026-11-11T15:06:08Z client dict -->
