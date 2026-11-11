@@ -40,3 +40,4 @@ def log_action(
         )
     except Exception:  # pragma: no cover - audit must never break a request
         logger.exception('Failed to write audit log')
+# 2026-11-11T15:06:10Z audit mixin
