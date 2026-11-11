@@ -295,3 +295,4 @@ class ApprovalViewSet(BaseModelViewSet):
                 )
             )
 # 2026-11-11T15:06:09Z overdue fix
+# 2026-11-11T15:06:09Z delete restriction
