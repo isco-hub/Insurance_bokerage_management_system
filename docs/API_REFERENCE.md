@@ -407,3 +407,4 @@ A new upload for the same entity and document name becomes the current version. 
 <!-- 2026-11-11T15:06:09Z payment API -->
 <!-- 2026-11-11T15:06:10Z reporting API -->
 <!-- 2026-11-11T15:06:11Z policy endpoints -->
+<!-- 2026-11-11T15:06:11Z auth flow -->
