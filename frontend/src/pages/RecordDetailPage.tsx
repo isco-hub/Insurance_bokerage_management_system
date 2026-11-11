@@ -236,3 +236,4 @@ export function RecordDetailPage({ config }: RecordDetailPageProps) {
 }
 
 export default RecordDetailPage;
+// 2026-11-11T15:06:10Z client pages
