@@ -266,3 +266,4 @@ branch-scoped roles, by branch.
 | Communication shows Failed | Check the client email/phone and the SMTP or SMS gateway configuration |
 | Remittance cannot reconcile | The matched amount must exactly equal the remittance net amount |
 | Login is locked | Wait for the lockout period or ask an administrator to reset it |
+<!-- 2026-11-11T15:06:11Z user guide -->
