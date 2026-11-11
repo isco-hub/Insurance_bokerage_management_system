@@ -365,3 +365,4 @@ class Renewal(models.Model):
 # 2026-11-11T15:06:08Z risk model
 # 2026-11-11T15:06:08Z motor risk
 # 2026-11-11T15:06:08Z policy model
+# 2026-11-11T15:06:08Z endorsement model
