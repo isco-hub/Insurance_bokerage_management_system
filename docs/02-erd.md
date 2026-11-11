@@ -497,3 +497,4 @@ erDiagram
 - Migration strategy: Django migrations; every schema change is a versioned
   migration generated with `manage.py makemigrations` and applied at container
   start with `manage.py migrate`.
+<!-- 2026-11-11T15:06:08Z policy ERD -->
