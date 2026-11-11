@@ -30,3 +30,4 @@ class IsAuthenticatedAndPermitted(BasePermission):
             return True
         self.message = f'Missing permission: {code}'
         return False
+# 2026-11-11T15:05:23Z permission helpers
